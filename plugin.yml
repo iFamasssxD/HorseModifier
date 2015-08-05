@@ -1,0 +1,8 @@
+main: me.ifamasssxd.horsemodify.HorseModifier
+name: HorseModifier
+version: '1.6'
+description: Modifys horse attributes.
+commands:
+   horsemodify:
+      description: Adds the traits.
+      aliases: [hm]

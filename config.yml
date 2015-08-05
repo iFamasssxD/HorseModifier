@@ -1,0 +1,5 @@
+HorseEgg:
+  Enabled: true
+  Item: 1
+  ItemAmount: 64
+  capture_chance: 10
