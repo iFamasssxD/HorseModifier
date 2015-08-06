@@ -5,14 +5,12 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-import net.minecraft.server.v1_7_R4.EntityHorse;
-import net.minecraft.server.v1_7_R4.GenericAttributes;
+import me.ifamasssxd.horsemodify.utils.NMSUtils;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
-import org.bukkit.craftbukkit.v1_7_R4.entity.CraftHorse;
 import org.bukkit.entity.Egg;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -48,7 +46,6 @@ public class HorseListener implements Listener {
 		}
 	}
 
-	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onEntity(PlayerInteractEvent event) {
 		Player p = event.getPlayer();
@@ -96,8 +93,7 @@ public class HorseListener implements Listener {
 		if (h.getCustomName() != null && !h.getCustomName().isEmpty()) {
 			im.setDisplayName(h.getCustomName());
 		}
-		EntityHorse horse = ((EntityHorse) ((CraftHorse) h).getHandle());
-		double speed = horse.getAttributeInstance(GenericAttributes.d).getValue();
+		double speed = NMSUtils.getSpeed(h);
 		lore.add(ChatColor.YELLOW + "Max Health: " + ChatColor.RED + (int) h.getMaxHealth());
 		lore.add(ChatColor.YELLOW + "Color: " + ChatColor.RED + h.getColor().toString());
 		lore.add(ChatColor.YELLOW + "Style: " + ChatColor.RED + h.getStyle().toString());
@@ -120,7 +116,6 @@ public class HorseListener implements Listener {
 				if (event.getRightClicked() instanceof Horse) {
 					event.setCancelled(true);
 					Horse h = (Horse) event.getRightClicked();
-					EntityHorse horse = ((EntityHorse) ((CraftHorse) h).getHandle());
 					if (HorseModifier.horseSelect.containsKey(player.getName())) {
 						List<Horse> ent = HorseModifier.horseSelect.get(player.getName());
 						if (ent.contains(event.getRightClicked())) {
@@ -140,8 +135,7 @@ public class HorseListener implements Listener {
 					if (player.hasMetadata("horse_stats")) {
 						player.sendMessage(ChatColor.GOLD + "------" + ChatColor.BOLD + "Current Stats" + ChatColor.GOLD + "------");
 						player.sendMessage(ChatColor.AQUA.toString() + ChatColor.BOLD + "Jump: " + ChatColor.GOLD + (h.getJumpStrength()));
-						player.sendMessage(ChatColor.AQUA.toString() + ChatColor.BOLD + "Speed: " + ChatColor.GOLD
-								+ (horse.getAttributeInstance(GenericAttributes.d).getValue() * 10));
+						player.sendMessage(ChatColor.AQUA.toString() + ChatColor.BOLD + "Speed: " + ChatColor.GOLD + (NMSUtils.getSpeed(h) * 10));
 						player.sendMessage(ChatColor.AQUA.toString() + ChatColor.BOLD + "Max Health: " + ChatColor.GOLD + Math.round((h.getMaxHealth() / 2))
 								+ ChatColor.RED + ChatColor.BOLD + " ❤");
 						player.sendMessage(ChatColor.AQUA.toString() + ChatColor.BOLD + "Has Chest: " + ChatColor.GOLD
@@ -156,7 +150,6 @@ public class HorseListener implements Listener {
 		}
 	}
 
-	@SuppressWarnings("deprecation")
 	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
 	public void onEggHit(EntityDamageByEntityEvent event) {
 		if (event.getDamager() instanceof Egg && event.getEntity() instanceof Horse) {
@@ -192,8 +185,7 @@ public class HorseListener implements Listener {
 			horse.setCustomName(name);
 			horse.setCustomNameVisible(true);
 		}
-		EntityHorse h = ((EntityHorse) ((CraftHorse) horse).getHandle());
-		h.getAttributeInstance(GenericAttributes.d).setValue(speed / 10);
+		NMSUtils.setValue(horse, speed / 10);
 		horse.setColor(color);
 		horse.setStyle(style);
 		return horse;

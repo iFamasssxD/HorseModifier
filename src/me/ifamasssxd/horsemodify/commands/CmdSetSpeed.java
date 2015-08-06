@@ -1,11 +1,9 @@
 package me.ifamasssxd.horsemodify.commands;
 
 import me.ifamasssxd.horsemodify.HorseModifier;
-import net.minecraft.server.v1_7_R4.EntityHorse;
-import net.minecraft.server.v1_7_R4.GenericAttributes;
+import me.ifamasssxd.horsemodify.utils.NMSUtils;
 
 import org.bukkit.ChatColor;
-import org.bukkit.craftbukkit.v1_7_R4.entity.CraftHorse;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Horse;
 import org.bukkit.entity.Player;
@@ -44,9 +42,11 @@ public class CmdSetSpeed extends HorseModifierCommand {
 				for (Entity ent : HorseModifier.horseSelect.get(p.getName())) {
 					if (ent instanceof Horse) {
 						Horse h = (Horse) ent;
-						EntityHorse horse = ((EntityHorse) ((CraftHorse) h).getHandle());
-						speed = speed * .1D;
-						horse.getAttributeInstance(GenericAttributes.d).setValue(speed);
+						NMSUtils.setValue(h, speed * .1D);
+						// EntityHorse horse = ((EntityHorse) ((CraftHorse)
+						// h).getHandle());
+						// speed = speed * .1D;
+						// horse.getAttributeInstance(GenericAttributes.d).setValue(speed);
 					}
 				}
 				p.sendMessage(ChatColor.GOLD + "Horse " + ChatColor.GREEN + ChatColor.BOLD + "Speed " + ChatColor.GOLD + "Modified!");

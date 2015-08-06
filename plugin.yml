@@ -1,6 +1,6 @@
 main: me.ifamasssxd.horsemodify.HorseModifier
 name: HorseModifier
-version: '1.6'
+version: '1.6.2'
 description: Modifys horse attributes.
 commands:
    horsemodify:
